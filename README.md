@@ -76,7 +76,7 @@ Make sure you have JDK + Maven + Allure CLI installed.
 
 ## 📎 GitHub Repository
 
-🔗 **[GitHub Repo – User Management API Tests](https://github.com/your-username/your-repo-name)**  
+🔗 **[GitHub Repo – User Management API Tests](https://github.com/Omar33Ali/api-automation-suite)**  
 > Includes full source code, a ready-to-use Maven project, and complete documentation.
 
 ---
