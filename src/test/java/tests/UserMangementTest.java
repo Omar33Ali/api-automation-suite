@@ -35,7 +35,8 @@ public class UserMangementTest {
                 .body("name", equalTo("Omar"))
                 .body("job", equalTo("QA Lead"))
                 .extract().response();
-
+        // In real APIs you'd persist this, but here we'll log it only
+        String createdId = response.jsonPath().getString("id");
         Allure.addAttachment("Create User Response", response.asPrettyString());
     }
 
@@ -52,7 +53,7 @@ public class UserMangementTest {
                 .header("x-api-key", "reqres-free-v1")
                 .body(requestBody.toString())
                 .when()
-                .put("/users/" + userId)
+                .put("/users/" + userId) // using static userId (2)
                 .then()
                 .statusCode(200)
                 .body("job", equalTo("Automation Architect"))
@@ -83,6 +84,7 @@ public class UserMangementTest {
     @Story("Delete User")
     @Description("Delete a user (mock behavior in Reqres)")
     public void deleteUser() {
+        // This always returns 204 but has no effect on Reqres users
         given()
                 .baseUri(baseUri)
                 .header("Content-Type", "application/json")
@@ -97,6 +99,7 @@ public class UserMangementTest {
     @Story("Verify User Deletion")
     @Description("Confirm user still exists after 'deletion' due to Reqres non-persistence")
     public void verifyUserDeleted() {
+        // This will NOT return 404 in Reqres, since DELETE is not persisted
         Response response = given()
                 .baseUri(baseUri)
                 .header("Content-Type", "application/json")
@@ -104,7 +107,7 @@ public class UserMangementTest {
                 .when()
                 .get("/users/" + userId)
                 .then()
-                .statusCode(200)
+                .statusCode(200) // It still returns 200 even after "deletion"
                 .extract().response();
 
         Allure.addAttachment("Verify User Response", response.asPrettyString());
